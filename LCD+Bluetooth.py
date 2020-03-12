@@ -47,21 +47,21 @@ E_DELAY = 0.0005
 class MyDelegate(btle.DefaultDelegate):
         def __init__(self) :
                 btle.DefaultDelegate.__init__(self)
-                self.prev = 0
+                self.prev = ''
 
         def handleNotification(self,cHandle,data):
                 print("handling notification...")
                 #print(cHandle) #18
-                print(int(data))
-                dev.writeCharacteristic(cHandle, "received {}".format(data))
-                lcd_string("received " + str(int(data)), LCD_LINE_1)
+                print(data),
+                dev.writeCharacteristic(cHandle, "received " + data.rstrip()+"\n")
+                lcd_string("received " + data.rstrip(), LCD_LINE_1)
 
-                if self.prev == 0 :
+                if self.prev == '' :
                         lcd_string("start receiving", LCD_LINE_2)
                 else :
-                        lcd_string("received {}".format(self.prev), LCD_LINE_2)
+                        lcd_string("received " + self.prev, LCD_LINE_2)
 
-                self.prev = int(data)
+                self.prev = data.rstrip()
 
 
 print "Connecting..."
