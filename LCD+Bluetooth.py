@@ -53,13 +53,13 @@ class MyDelegate(btle.DefaultDelegate):
                 print("handling notification...")
                 #print(cHandle) #18
                 print(data),
-                dev.writeCharacteristic(cHandle, "received " + data.rstrip()+"\n")
-                lcd_string("received " + data.rstrip(), LCD_LINE_1)
+                dev.writeCharacteristic(cHandle, "recv: " + data.rstrip()+"\n")
+                lcd_string("recv: " + data.rstrip(), LCD_LINE_1)
 
                 if self.prev == '' :
                         lcd_string("start receiving", LCD_LINE_2)
                 else :
-                        lcd_string("received " + self.prev, LCD_LINE_2)
+                        lcd_string("recv: " + self.prev, LCD_LINE_2)
 
                 self.prev = data.rstrip()
 
