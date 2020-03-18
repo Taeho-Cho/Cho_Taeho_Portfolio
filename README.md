@@ -8,4 +8,5 @@
 combined 디렉토리에서 코드 합침
 
 필요 모듈
-Flask 디렉토리에 flask모듈 필요   
+Flask 디렉토리에 flask 모듈 필요
+bluepy 디렉토리에 bluepy 모듈 필요
