@@ -56,11 +56,24 @@
                 </div>
 
                 <div id="footer">
-                        <form action="/tovideo" style="float: left;">
+                        <form id="indextovideo"  action="/tovideo" style="float: left;">
                                 <input type="submit" value="비디오">
                         </form>
+
                         <p>footer</p>
                 </div>
+
+                <form id="update" action="/"/>
+
+                <script>
+                        //function func_call() { document.getElementById("indextovideo").submit();}
+
+                        //setTimeout(func_call, 4000);
+
+                        function func_update() { document.getElementById("update").submit();}
+
+                        setInterval(func_update, 2000);
+                </script>
         </boby>
 </html>
                 
