@@ -48,6 +48,7 @@ E_DELAY = 0.0005
 
 app = Flask(__name__)
 
+res = ''
 
 class MyDelegate(btle.DefaultDelegate):
         def __init__(self) :
@@ -67,6 +68,8 @@ class MyDelegate(btle.DefaultDelegate):
                         lcd_string("recv: " + self.prev, LCD_LINE_2)
 
                 self.prev = data.rstrip()
+                global res
+                res = data.rstrip()
 
 
 print("Connecting...")
@@ -76,23 +79,8 @@ time.sleep(4)
 
 print("Services...")
 
-dev.withDelegate(MyDelegate())
-
-#for dsc in dev.getDescriptors() :
-#       print(dsc)
-#       print(" {}".format(dsc.uuid))
-
-## send data to Uno
-#svc = dev.getServiceByUUID("ffe0")
-
-#for ch in svc.getCharacteristics() :
-#       print(ch.propertiesToString())
-#       print(ch.getHandle()) #18
-
-#ch = svc.getCharacteristics()[0]
-#ch.write('\n')
-#ch.write( 'n' )
-#ch.write('\n')
+MyDele = MyDelegate()
+dev.withDelegate(MyDele)
 
 dev.writeCharacteristic(18, "\nLet's do it\n")
 
@@ -110,8 +98,6 @@ def main():
 
   # Initialise display
   lcd_init()
-
-  temp = ""  # save the previous text
 
   lcd_string("Rasbperry Pi", LCD_LINE_1)
   lcd_string("16x2 LCD Test",LCD_LINE_2)
@@ -202,7 +188,11 @@ def lcd_string(message,line):
 
 @app.route('/')
 def index():
-        return render_template('index.html')
+        if dev.waitForNotifications(2.0) :
+                #return render_template('index.html', response=MyDele.prev)
+                return render_template('index.html', response=res)
+        else :
+                return render_template('index.html')
 
 @app.route('/tovideo')
 def tovideo() :
