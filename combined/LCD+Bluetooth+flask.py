@@ -60,12 +60,12 @@ class MyDelegate(btle.DefaultDelegate):
                 #print(cHandle) #18
                 print(data),
                 dev.writeCharacteristic(cHandle, "recv: " + data.rstrip()+"\n")
-                lcd_string("recv: " + data.rstrip(), LCD_LINE_1)
+                #lcd_string("recv: " + data.rstrip(), LCD_LINE_1)
 
-                if self.prev == '' :
-                        lcd_string("start receiving", LCD_LINE_2)
-                else :
-                        lcd_string("recv: " + self.prev, LCD_LINE_2)
+                #if self.prev == '' :
+                        #lcd_string("start receiving", LCD_LINE_2)
+                #else :
+                        #lcd_string("recv: " + self.prev, LCD_LINE_2)
 
                 self.prev = data.rstrip()
                 global res
@@ -206,9 +206,25 @@ def hello(_name):
 
 if __name__ == '__main__':
 
-  th = threading.Thread(target=main)
-  th.start()
+  #th = threading.Thread(target=main)
+  #th.start()
 
+  # Main program block
+  GPIO.setwarnings(False)
+  GPIO.setmode(GPIO.BCM)       # Use BCM GPIO numbers
+  GPIO.setup(LCD_E, GPIO.OUT)  # E
+  GPIO.setup(LCD_RS, GPIO.OUT) # RS
+  GPIO.setup(LCD_D4, GPIO.OUT) # DB4
+  GPIO.setup(LCD_D5, GPIO.OUT) # DB5
+  GPIO.setup(LCD_D6, GPIO.OUT) # DB6
+  GPIO.setup(LCD_D7, GPIO.OUT) # DB7
+
+  # Initialise display
+  lcd_init()
+
+  lcd_string("Rasbperry Pi", LCD_LINE_1)
+  lcd_string("16x2 LCD Test",LCD_LINE_2)      
+        
   try:
 
     app.run(host='0.0.0.0', port='5000') # thread No.1
@@ -219,5 +235,5 @@ if __name__ == '__main__':
     lcd_byte(0x01, LCD_CMD)
     lcd_string("Goodbye!",LCD_LINE_1)
     GPIO.cleanup()
-    th.join(5)
+    #th.join(4)
     dev.disconnect()   
