@@ -46,6 +46,7 @@ LCD_LINE_2 = 0xC0 # LCD RAM address for the 2nd line
 E_PULSE = 0.0005
 E_DELAY = 0.0005
 
+
 app = Flask(__name__)
 
 #res = ''
@@ -73,14 +74,15 @@ class MyDelegate(btle.DefaultDelegate):
 
                 #global res
                 #res = data.rstrip()
-
+                
+                print(data.rstrip())
                 global humidity, temperature, light, noise
                 temp = data.rstrip().split(',')
                 humidity = temp[0]
                 temperature = temp[1]
                 light = temp[2]
                 noise = temp[3]
-                print(humidity+' '+temperature+' '+light+' '+noise)
+                #print(humidity+' '+temperature+' '+light+' '+noise)
                 lcd_string("H : "+humidity.split('.')[0]+"  T : "+temperature.split('.')[0] , LCD_LINE_1)
                 lcd_string("L : "+light+"  N : "+noise , LCD_LINE_2)
 
@@ -203,7 +205,8 @@ def lcd_string(message,line):
 def index():
         if dev.waitForNotifications(2.0) :
                 #return render_template('index.html', response=MyDele.prev)
-                return render_template('index.html', response=res)
+                #return render_template('index.html', response=res)
+                return render_template('index.html', humidity=humidity, temperature=temperature, light=light, noise=noise)
         else :
                 return render_template('index.html')
 
