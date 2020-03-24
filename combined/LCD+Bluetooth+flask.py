@@ -75,16 +75,17 @@ class MyDelegate(btle.DefaultDelegate):
                 #global res
                 #res = data.rstrip()
                 
-                print(data.rstrip())
+                #print(data.rstrip())
                 global humidity, temperature, light, noise
                 temp = data.rstrip().split(',')
-                humidity = temp[0]
-                temperature = temp[1]
-                light = temp[2]
-                noise = temp[3]
-                #print(humidity+' '+temperature+' '+light+' '+noise)
-                lcd_string("H : "+humidity.split('.')[0]+"  T : "+temperature.split('.')[0] , LCD_LINE_1)
-                lcd_string("L : "+light+"  N : "+noise , LCD_LINE_2)
+                if len(temp) == 4 :
+                        humidity = temp[0]
+                        temperature = temp[1]
+                        light = temp[2]
+                        noise = temp[3]
+                        #print(humidity+' '+temperature+' '+light+' '+noise)
+                        lcd_string("H : "+humidity.split('.')[0]+"  T : "+temperature.split('.')[0] , LCD_LINE_1)
+                        lcd_string("L : "+light+"  N : "+noise , LCD_LINE_2)
 
 
 #print("Connecting...")
