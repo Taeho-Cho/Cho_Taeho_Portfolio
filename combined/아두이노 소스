@@ -37,7 +37,7 @@ void loop() {
   
   //Serial.println(str);
   HM10.println(str);  // 하나의 문자열로 값을 
-  delay(1000);
+  delay(500);
   
 
 /*
