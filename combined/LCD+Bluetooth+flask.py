@@ -48,17 +48,21 @@ E_DELAY = 0.0005
 
 app = Flask(__name__)
 
-res = ''
+#res = ''
+
+humidity = ''
+temperature = ''
+light = ''
+noise = ''
 
 class MyDelegate(btle.DefaultDelegate):
         def __init__(self) :
                 btle.DefaultDelegate.__init__(self)
-                self.prev = ''
 
         def handleNotification(self,cHandle,data):
                 print("handling notification...")
                 #print(cHandle) #18
-                print(data),
+                #print(data),
                 dev.writeCharacteristic(cHandle, "recv: " + data.rstrip()+"\n")
                 #lcd_string("recv: " + data.rstrip(), LCD_LINE_1)
 
@@ -67,22 +71,31 @@ class MyDelegate(btle.DefaultDelegate):
                 #else :
                         #lcd_string("recv: " + self.prev, LCD_LINE_2)
 
-                self.prev = data.rstrip()
-                global res
-                res = data.rstrip()
+                #global res
+                #res = data.rstrip()
+
+                global humidity, temperature, light, noise
+                temp = data.rstrip().split(',')
+                humidity = temp[0]
+                temperature = temp[1]
+                light = temp[2]
+                noise = temp[3]
+                print(humidity+' '+temperature+' '+light+' '+noise)
+                lcd_string("H : "+humidity.split('.')[0]+"  T : "+temperature.split('.')[0] , LCD_LINE_1)
+                lcd_string("L : "+light+"  N : "+noise , LCD_LINE_2)
 
 
-print("Connecting...")
+#print("Connecting...")
 
-dev = btle.Peripheral("90:E2:02:9F:DA:75")
-time.sleep(4)
+#dev = btle.Peripheral("90:E2:02:9F:DA:75")
+#time.sleep(4)
 
-print("Services...")
+#print("Services...")
 
-MyDele = MyDelegate()
-dev.withDelegate(MyDele)
+#MyDele = MyDelegate()
+#dev.withDelegate(MyDele)
 
-dev.writeCharacteristic(18, "\nLet's do it\n")
+#dev.writeCharacteristic(18, "\nLet's do it\n")
 
 
 def main():
@@ -204,6 +217,20 @@ def hello(_name):
         return render_template('page.html', name=_name)
 
 
+print("Connecting...")
+
+dev = btle.Peripheral("90:E2:02:9F:DA:75")
+time.sleep(4)
+
+print("Services...")
+
+
+#MyDele = MyDelegate()
+#dev.withDelegate(MyDele)
+
+dev.writeCharacteristic(18, "\nLet's do it\n")
+
+
 if __name__ == '__main__':
 
   #th = threading.Thread(target=main)
@@ -224,9 +251,10 @@ if __name__ == '__main__':
 
   lcd_string("Rasbperry Pi", LCD_LINE_1)
   lcd_string("16x2 LCD Test",LCD_LINE_2)      
-        
+  
+  dev.withDelegate(MyDelegate())        
+  
   try:
-
     app.run(host='0.0.0.0', port='5000') # thread No.1
     #main() # thread No.2
   except KeyboardInterrupt:
