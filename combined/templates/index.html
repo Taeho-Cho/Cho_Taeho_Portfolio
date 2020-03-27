@@ -47,12 +47,42 @@
                 
                 <div style="width:100%;">
                                         <div id="section1">
-                                                        {{ response }}
+                                                 humidity : <span id="humidity"></span><br>
+                                                 temperature : <span id="temperature"></span><br>
+                                                 lightness : <span id="light"></span><br>
+                                                 noisiness : <span id="noise"></span><br>
                                         </div>
 
                                         <div id="section2">
                                                         div2 in section
                                         </div>
+                </div>
+
+                <div id="footer">
+                         <form id="input" action="/input" method="POST">
+                                                <!--<form id="input" action="/input">-->
+                                                        column 1~4 : <input id="col" name="col" type="text"/><br>
+                                                        row 1~6 : <input id="row" name="row" type="text"/><br>
+                                                </form>
+                        <script>
+function input() {
+
+        var col = Number(document.getElementById("col").value);
+        var row = Number(document.getElementById("row").value);
+
+        if ( col<1 || col>4 ) {
+                alert("col should be from 1 to 4");
+        }
+        else if ( row<1 || row>6 ) {
+                alert("row should be from 1 to 6");
+        }
+        else {
+                document.getElementById("input").submit();
+                //alert(document.getElementById("col").value+" "+document.getElementById("row").value);
+        }
+}
+</script>
+                        <button onclick="input()">submit</button>
                 </div>
 
                 <div id="footer">
@@ -66,13 +96,21 @@
                 <form id="update" action="/"/>
 
                 <script>
-                        //function func_call() { document.getElementById("indextovideo").submit();}
-
-                        //setTimeout(func_call, 4000);
-
-                        function func_update() { document.getElementById("update").submit();}
-
-                        setTimeout(func_update, 1500);
+                        function loadDoc() {
+                                var xhttp = new XMLHttpRequest();
+                                xhttp.onreadystatechange = function() {
+                                        if (this.readyState == 4 && this.status == 200) {
+                                        var myjson = JSON.parse(this.responseText);
+                                        document.getElementById("humidity").innerHTML = myjson.humidity;
+                                        document.getElementById("temperature").innerHTML = myjson.temperature;
+                                        document.getElementById("light").innerHTML = myjson.light;
+                                        document.getElementById("noise").innerHTML = myjson.noise;
+                                        }
+                                };
+                                xhttp.open("GET", "/update", true);
+                                xhttp.send();
+                        }
+                        setInterval(loadDoc, 1500);
                 </script>
         </boby>
 </html>
