@@ -85,6 +85,7 @@ class MyDelegate(btle.DefaultDelegate):
                         light = temp[2]
                         noise = temp[3]
                         #print(humidity+' '+temperature+' '+light+' '+noise)
+                        #lcd_byte(0x01, LCD_CMD)
                         lcd_string("H : "+humidity.split('.')[0]+"  T : "+temperature.split('.')[0] , LCD_LINE_1)
                         lcd_string("L : "+light+"  N : "+noise , LCD_LINE_2)
                         time.sleep(1)
