@@ -23,7 +23,7 @@ import RPi.GPIO as GPIO
 import time
 import threading
 from bluepy import btle
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify, request
 
 
 # Define GPIO to LCD mapping
@@ -76,6 +76,7 @@ class MyDelegate(btle.DefaultDelegate):
                 #res = data.rstrip()
                 
                 #print(data.rstrip())
+                
                 global humidity, temperature, light, noise
                 temp = data.rstrip().split(',')
                 if len(temp) == 4 :
@@ -86,6 +87,7 @@ class MyDelegate(btle.DefaultDelegate):
                         #print(humidity+' '+temperature+' '+light+' '+noise)
                         lcd_string("H : "+humidity.split('.')[0]+"  T : "+temperature.split('.')[0] , LCD_LINE_1)
                         lcd_string("L : "+light+"  N : "+noise , LCD_LINE_2)
+                        time.sleep(1)
 
 
 #print("Connecting...")
@@ -239,21 +241,32 @@ def lcd_string(message,line):
 
 @app.route('/')
 def index():
-        if dev.waitForNotifications(2.0) :
-                #return render_template('index.html', response=MyDele.prev)
-                #return render_template('index.html', response=res)
-                return render_template('index.html', humidity=humidity, temperature=temperature, light=light, noise=noise)
-        else :
-                return render_template('index.html')
+        return render_template('index.html')
+        #if dev.waitForNotifications(2.0) :
+                #return render_template('index.html' )
+        #else :
+                #return render_template('index.html')
 
 @app.route('/tovideo')
 def tovideo() :
         return render_template('tovideo.html')
 
 
-@app.route('/<_name>')
-def hello(_name):
-        return render_template('page.html', name=_name)
+@app.route('/input', methods=['POST'])
+def input():
+        #print(request.args.get("col"))
+        #print(type(request.args.get("row")))
+        dev.writeCharacteristic(18, request.form["col"]+request.form["row"])
+        return render_template('index.html')
+        #return render_template('index.html')
+
+@app.route('/update')
+def update():
+        if request.method == 'GET' :
+                if dev.waitForNotifications(1) :
+                        return jsonify({"humidity":humidity, "temperature":temperature, "light":light, "noise":noise})
+
+        return render_template('index.html')
 
 
 print("Connecting...")
@@ -302,5 +315,5 @@ if __name__ == '__main__':
     lcd_byte(0x01, LCD_CMD)
     lcd_string("Goodbye!",LCD_LINE_1)
     GPIO.cleanup()
-    #th.join(4)
+    th.join()
     dev.disconnect()   
