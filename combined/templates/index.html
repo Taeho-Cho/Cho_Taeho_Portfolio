@@ -64,7 +64,15 @@
                                                         column 1~4 : <input id="col" name="col" type="text"/><br>
                                                         row 1~6 : <input id="row" name="row" type="text"/><br>
                                                 </form>
-                        <script>
+<script>
+var xhttp2 = new XMLHttpRequest();
+xhttp2.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    document.getElementById("col").value = "";
+    document.getElementById("row").value = "";
+  }
+};
+
 function input() {
 
         var col = Number(document.getElementById("col").value);
@@ -77,8 +85,10 @@ function input() {
                 alert("row should be from 1 to 6");
         }
         else {
-                document.getElementById("input").submit();
-                //alert(document.getElementById("col").value+" "+document.getElementById("row").value);
+                //document.getElementById("input").submit();
+                var str = "col=" + document.getElementById("col").value + "&row=" + document.getElementById("row").value
+                xhttp2.open("GET", "/input"+"?col=" + document.getElementById("col").value + "&row=" + document.getElementById("row").value, true);
+                xhttp2.send();
         }
 }
 </script>
