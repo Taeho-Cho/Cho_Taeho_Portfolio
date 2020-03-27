@@ -65,6 +65,8 @@
                                                         row 1~6 : <input id="row" name="row" type="text"/><br>
                                                 </form>
 <script>
+function input() {
+
 var xhttp2 = new XMLHttpRequest();
 xhttp2.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
@@ -72,9 +74,7 @@ xhttp2.onreadystatechange = function() {
     document.getElementById("row").value = "";
   }
 };
-
-function input() {
-
+        
         var col = Number(document.getElementById("col").value);
         var row = Number(document.getElementById("row").value);
 
