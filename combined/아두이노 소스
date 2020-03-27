@@ -7,23 +7,36 @@ DHT dht(DHTPIN, DHTTYPE);
 
 SoftwareSerial HM10(2,3); // RX(2)핀을 HM10의 TX에, TX(3)핀을 HM10의 RX에 연결
 
+int col[] = {4,5,6,7};
+int row[] = {8,9,10,11,12,13};
+//int cnt = 0;
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   HM10.begin(9600);
   
   Serial.println("good moring lol this is the HM-10");
-  
+
+  for(int i = 0; i < 4; i++) {
+    pinMode(col[i],OUTPUT);
+    digitalWrite(col[i],HIGH);
+  }
+
+  for(int i = 0; i < 6; i++) {
+    pinMode(row[i],OUTPUT);
+    digitalWrite(row[i],LOW);
+  }
   delay(2000);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  int h = dht.readHumidity();
-  int t = dht.readTemperature();
-  int light = analogRead(1);  // A1, the lighter the lower the value
-  int noise = analogRead(2);  // A2
-  String str = String(h)+","+String(t)+","+String(light)+","+String(noise);
+  //int h = dht.readHumidity();
+  //int t = dht.readTemperature();
+  //int light = analogRead(1);  // A1, the lighter the lower the value
+  //int noise = analogRead(2);  // A2
+  //String str = String(h)+","+String(t)+","+String(light)+","+String(noise);
   //delay(1000);
   
   //Serial.print("humidity:");          // ‘시리얼 플로터’ 사용위해 이부분 주석 필요
@@ -36,9 +49,10 @@ void loop() {
   //Serial.println(noise);
   
   //Serial.println(str);
-  HM10.println(str);  // 하나의 문자열로 값을 
+  //HM10.println(str);
+  //Serial.println(String(dht.readHumidity())+' '+String(dht.readTemperature())+' '+String(analogRead(1))+' '+String(analogRead(2)));
+  HM10.println(String(dht.readHumidity())+','+String(dht.readTemperature())+','+String(analogRead(1))+','+String(analogRead(2)));
   delay(1000);
-  
 
 /*
   if(HM10.available()){  // HM10.read()
@@ -50,4 +64,28 @@ void loop() {
     //Serial.write(Serial.read());
     }
 */
+
+/*
+  digitalWrite(row[cnt++],LOW);
+  if(cnt == 6) cnt = 0;
+  digitalWrite(row[cnt],HIGH);
+*/
+
+  if(HM10.available()){  // HM10.read()
+    //Serial.write(HM10.read());
+
+    for(int i = 0; i <4; i++){
+      digitalWrite(col[i],HIGH);
+    }
+    for(int i = 0; i <6; i++){
+      digitalWrite(row[i],LOW);
+    }
+    
+    digitalWrite(col[HM10.read()-49],LOW);
+    digitalWrite(row[HM10.read()-49],HIGH);
+    //Serial.println(HM10.read());
+    //Serial.write(HM10.read());
+    
+    }
+
 }
