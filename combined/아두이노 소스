@@ -27,7 +27,7 @@ void setup() {
     pinMode(row[i],OUTPUT);
     digitalWrite(row[i],LOW);
   }
-  delay(2000);
+  delay(1000);
 }
 
 void loop() {
