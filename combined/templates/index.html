@@ -75,24 +75,27 @@ xhttp2.onreadystatechange = function() {
   }
 };
         
+        xhttp2.open("POST", "/input", true);
+        xhttp2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
         var col = Number(document.getElementById("col").value);
         var row = Number(document.getElementById("row").value);
 
-        if ( col<1 || col>4 ) {
-                alert("col should be from 1 to 4");
+        if ( col == 0 && row == 0 ) {
+                xhttp2.send( "col=0&row=0" );
+        }
+        else if ( col<1 || col>4 ) {
+                alert("column should be from 1 to 4");
         }
         else if ( row<1 || row>6 ) {
                 alert("row should be from 1 to 6");
         }
         else {
-                //document.getElementById("input").submit();
-                var str = "col=" + document.getElementById("col").value + "&row=" + document.getElementById("row").value
-                xhttp2.open("GET", "/input"+"?col=" + document.getElementById("col").value + "&row=" + document.getElementById("row").value, true);
-                xhttp2.send();
+                xhttp2.send("col=" + document.getElementById("col").value + "&row=" + document.getElementById("row").value);
         }
 }
 </script>
-                        <button onclick="input()">submit</button>
+                        <button onclick="input()">light on <br>if 0,0 -> light off</button>
                 </div>
 
                 <div id="footer">
