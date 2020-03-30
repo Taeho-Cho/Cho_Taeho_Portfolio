@@ -253,17 +253,18 @@ def tovideo() :
         return render_template('tovideo.html')
 
 
-@app.route('/input', methods=['GET'])
+@app.route('/input', methods=['POST'])
 def input():
-        #print(request.args.get("col")+request.args.get("row"))
-        dev.writeCharacteristic(18, request.args.get("col")+request.args.get("row"), True)
+        #print(request.args.get("col") + " " + request.args.get("row"))
+        #print(request.form["col"]+" "+request.form["row"])
+        dev.writeCharacteristic(18, request.form["col"]+request.form["row"], True)
         return jsonify({"res":"OK"})
         #return render_template('index.html')
 
 @app.route('/update')
 def update():
         if request.method == 'GET' :
-                if dev.waitForNotifications(1) :
+                if dev.waitForNotifications(1.5) :
                         return jsonify({"humidity":humidity, "temperature":temperature, "light":light, "noise":noise})
 
         return render_template('index.html')
