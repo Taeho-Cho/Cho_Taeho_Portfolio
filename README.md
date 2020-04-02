@@ -12,3 +12,5 @@ combined 디렉토리에서 코드 합침
 파이썬 바이트코드 파일(.pyc)을 지워야 수정한 코드를 적용가능 // find . -name '*.pyc' -delete 
 
 모바일 어플리케이션 : 안드로이드 스튜디오 in Java
+
+POST는 AsyncHttpClient로 구현
