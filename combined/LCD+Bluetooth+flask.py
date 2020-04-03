@@ -311,7 +311,6 @@ if __name__ == '__main__':
   
   try:
     app.run(host='0.0.0.0', port='5000') # thread No.1
-    #main() # thread No.2
   except KeyboardInterrupt:
     pass
   finally:
