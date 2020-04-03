@@ -85,7 +85,7 @@ void loop() {
     digitalWrite(row[HM10.read()-49],HIGH);
     //Serial.println(HM10.read());
     //Serial.write(HM10.read());
-    
+    delay(1000);
     }
 
 }
