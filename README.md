@@ -5,7 +5,7 @@
   
   
   
-combined 디렉토리에서 코드 합침
+combined 디렉토리 : 라즈베라파이 서버, 아두이노
 
 필요 패키지&모듈 : flask 패키지, bluepy 패키지, RPi.GPIO 모듈, threading 
 
