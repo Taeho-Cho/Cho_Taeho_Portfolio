@@ -255,11 +255,13 @@ def tovideo() :
 
 @app.route('/input', methods=['POST'])
 def input():
-        #print(request.args.get("col") + " " + request.args.get("row"))
-        #print(request.form["col"]+" "+request.form["row"])
-        dev.writeCharacteristic(18, request.form["col"]+request.form["row"], True)
-        return jsonify({"res":"OK"})
-        #return render_template('index.html')
+        if request.method == 'POST' :
+                #print(request.args.get("col") + " " + request.args.get("row"))
+                #print(request.form["col"]+" "+request.form["row"])
+                dev.writeCharacteristic(18, request.form["col"]+request.form["row"], True)
+                #dev.writeCharacteristic(18, request.form["col"]+request.form["row"])
+                return jsonify({"res":"OK"})
+                #return render_template('index.html')
 
 @app.route('/update')
 def update():
@@ -267,7 +269,7 @@ def update():
                 if dev.waitForNotifications(1.5) :
                         return jsonify({"humidity":humidity, "temperature":temperature, "light":light, "noise":noise})
 
-        return render_template('index.html')
+        #return render_template('index.html')
 
 
 print("Connecting...")
