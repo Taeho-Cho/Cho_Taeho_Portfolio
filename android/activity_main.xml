@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="@string/smart_home"
+            android:text="Smart Home"
             android:textSize="40sp" />
 
         <LinearLayout
@@ -155,7 +155,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/column" />
+                android:text="column" />
 
             <EditText
                 android:id="@+id/col"
