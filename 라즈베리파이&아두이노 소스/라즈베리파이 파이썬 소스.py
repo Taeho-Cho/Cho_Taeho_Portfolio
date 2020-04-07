@@ -49,7 +49,6 @@ E_DELAY = 0.0005
 
 app = Flask(__name__)
 
-#res = ''
 
 humidity = ''
 temperature = ''
