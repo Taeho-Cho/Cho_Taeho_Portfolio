@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     Button buttonforlight;
     EditText col;
     EditText row;
-    //AsyncHttpResponseHandler msgforlight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +66,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String str = new String(responseBody);
-                //Toast.makeText(getApplicationContext(),str, Toast.LENGTH_LONG).show();
-                //humidity.setText(str);
 
                 try {
                     JSONObject jobj = new JSONObject(str);
@@ -97,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        // client.post(url, params, responsehandler)
         buttonforlight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,12 +117,6 @@ public class MainActivity extends AppCompatActivity {
                 String _col = new String(col.getText().toString());
                 String _row = new String(row.getText().toString());
 
-                /*
-                RequestParams params = new RequestParams();
-                params.put("col", _col);
-                params.put("row", _row);
-                client.post("http://192.168.0.58:5000/input", params, msgforlight);
-                */
 
                 if (Integer.parseInt(_col) == 0 && Integer.parseInt(_row) == 0) {
                     RequestParams params = new RequestParams();
