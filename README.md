@@ -8,8 +8,11 @@
 
 /*
 디렉토리 구조
+
 ├── android/ 안드로이드 스튜디오 소스코드
+
 ├── 
+
 ├── templates/ html 파일
 ├── static/ img, css등 정적 파일
 ├── __init__.py : 모듈의 시작 지점
