@@ -62,20 +62,8 @@ class MyDelegate(btle.DefaultDelegate):
 
         def handleNotification(self,cHandle,data):
                 print("handling notification...")
-                #print(cHandle) #18
-                #print(data),
+
                 dev.writeCharacteristic(cHandle, "recv: " + data.rstrip()+"\n")
-                #lcd_string("recv: " + data.rstrip(), LCD_LINE_1)
-
-                #if self.prev == '' :
-                        #lcd_string("start receiving", LCD_LINE_2)
-                #else :
-                        #lcd_string("recv: " + self.prev, LCD_LINE_2)
-
-                #global res
-                #res = data.rstrip()
-                
-                #print(data.rstrip())
                 
                 global humidity, temperature, light, noise
                 temp = data.rstrip().split(',')
@@ -84,24 +72,10 @@ class MyDelegate(btle.DefaultDelegate):
                         temperature = temp[1]
                         light = temp[2]
                         noise = temp[3]
-                        #print(humidity+' '+temperature+' '+light+' '+noise)
-                        #lcd_byte(0x01, LCD_CMD)
                         lcd_string("H : "+humidity.split('.')[0]+"  T : "+temperature.split('.')[0] , LCD_LINE_1)
                         lcd_string("L : "+light+"  N : "+noise , LCD_LINE_2)
                         time.sleep(1)
 
-
-#print("Connecting...")
-
-#dev = btle.Peripheral("90:E2:02:9F:DA:75")
-#time.sleep(4)
-
-#print("Services...")
-
-#MyDele = MyDelegate()
-#dev.withDelegate(MyDele)
-
-#dev.writeCharacteristic(18, "\nLet's do it\n")
 
 
 def main():
@@ -243,10 +217,6 @@ def lcd_string(message,line):
 @app.route('/')
 def index():
         return render_template('index.html')
-        #if dev.waitForNotifications(2.0) :
-                #return render_template('index.html' )
-        #else :
-                #return render_template('index.html')
 
 @app.route('/tovideo')
 def tovideo() :
@@ -256,12 +226,9 @@ def tovideo() :
 @app.route('/input', methods=['POST'])
 def input():
         if request.method == 'POST' :
-                #print(request.args.get("col") + " " + request.args.get("row"))
-                #print(request.form["col"]+" "+request.form["row"])
                 dev.writeCharacteristic(18, request.form["col"]+request.form["row"], True)
-                #dev.writeCharacteristic(18, request.form["col"]+request.form["row"])
                 return jsonify({"res":"OK"})
-                #return render_template('index.html')
+
 
 @app.route('/update')
 def update():
@@ -269,7 +236,6 @@ def update():
                 if dev.waitForNotifications(1.5) :
                         return jsonify({"humidity":humidity, "temperature":temperature, "light":light, "noise":noise})
 
-        #return render_template('index.html')
 
 
 print("Connecting...")
@@ -279,17 +245,11 @@ time.sleep(4)
 
 print("Services...")
 
-
-#MyDele = MyDelegate()
-#dev.withDelegate(MyDele)
-
 dev.writeCharacteristic(18, "\nLet's do it\n")
 
 
 if __name__ == '__main__':
 
-  #th = threading.Thread(target=main)
-  #th.start()
 
   # Main program block
   GPIO.setwarnings(False)
