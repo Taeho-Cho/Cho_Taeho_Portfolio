@@ -9,7 +9,6 @@ SoftwareSerial HM10(2,3); // RX(2)핀을 HM10의 TX에, TX(3)핀을 HM10의 RX�
 
 int col[] = {4,5,6,7};
 int row[] = {8,9,10,11,12,13};
-//int cnt = 0;
 
 void setup() {
   // put your setup code here, to run once:
@@ -31,45 +30,9 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  //int h = dht.readHumidity();
-  //int t = dht.readTemperature();
-  //int light = analogRead(1);  // A1, the lighter the lower the value
-  //int noise = analogRead(2);  // A2
-  //String str = String(h)+","+String(t)+","+String(light)+","+String(noise);
-  //delay(1000);
-  
-  //Serial.print("humidity:");          // ‘시리얼 플로터’ 사용위해 이부분 주석 필요
-  //Serial.println(h);                  // 습도값 출력
-  //Serial.print("temperature:");       // ‘시리얼 플로터’ 사용위해 이부분 주석 필요
-  //Serial.println(t);                  // 온도값 출력 
-  //Serial.print("light:");          
-  //Serial.println(light); 
-  //Serial.print("noise:");          
-  //Serial.println(noise);
-  
-  //Serial.println(str);
-  //HM10.println(str);
-  //Serial.println(String(dht.readHumidity())+' '+String(dht.readTemperature())+' '+String(analogRead(1))+' '+String(analogRead(2)));
   HM10.println(String(dht.readHumidity())+','+String(dht.readTemperature())+','+String(analogRead(1))+','+String(analogRead(2)));
   delay(1000);
 
-/*
-  if(HM10.available()){  // HM10.read()
-    Serial.write(HM10.read());
-    }
-  
-  if(Serial.available()){  // Serial.read()
-    HM10.write(Serial.read());  
-    //Serial.write(Serial.read());
-    }
-*/
-
-/*
-  digitalWrite(row[cnt++],LOW);
-  if(cnt == 6) cnt = 0;
-  digitalWrite(row[cnt],HIGH);
-*/
 
   if(HM10.available()){  // HM10.read()
     //Serial.write(HM10.read());
@@ -83,8 +46,7 @@ void loop() {
     
     digitalWrite(col[HM10.read()-49],LOW);
     digitalWrite(row[HM10.read()-49],HIGH);
-    //Serial.println(HM10.read());
-    //Serial.write(HM10.read());
+
     delay(1000);
     }
 
